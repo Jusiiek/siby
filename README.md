@@ -3,25 +3,16 @@
 
 ### Setup
 
-##### Create virtual environment for python
-
+##### 1. Create virtual environment for python
 use python version 3.10.+
+Execute the command below to create a virtual environment
+ - ```python -m venv venv```
 
-execute the command to create a virtual environment
-``
-python -m venv venv
-``
-
-##### Install requirements
-
+##### 2. Install requirements
 use makefile
-``
-make dev_install_requirements
-``
+ - ```make dev_install_requirements```
 
-##### Run project
 
+##### 3. Run project
 use makefile
-``
-make dev_run
-``
+- ```make dev_run```
