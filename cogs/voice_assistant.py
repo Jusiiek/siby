@@ -35,22 +35,17 @@ class VoiceAssistant(commands.Cog):
         except pygame.error as e:
             print(f"Error playing sound: {e}")
 
-    async def _join_voice_channel(self, channel_id):
-        guild = self.bot.get_guild(SERVER_ID)
-        if guild:
-            voice_channel = guild.get_channel(channel_id)
-            voice_client = discord.utils.get(self.bot.voice_clients, guild=guild)
-            if voice_channel and voice_channel.members:
-
-                if voice_client and voice_client.client == voice_channel:
-                    pass
-                else:
-                    await voice_channel.connect()
-                    self.connected_voice_channel = voice_channel
-            else:
-                if voice_client and voice_client.channel.id == channel_id:
-                    await voice_client.disconnect()
-                    self.connected_voice_channel = None
+    async def _join_voice_channel(self, vc_id):
+        print("_join_voice_channel")
+        voice_channel = discord.utils.get(self.bot.get_all_channels(), id=vc_id)
+        if voice_channel:
+            print("FOUND voice_client", voice_channel)
+            print(type(voice_channel))
+            voice_client = discord.utils.get(self.bot.voice_clients, guild=self.bot.get_guild(SERVER_ID))
+            if voice_channel.members and not voice_client.is_connected():
+                await voice_client.connect()
+            elif voice_client.is_connected():
+                await voice_channel.disconnect()
 
     async def _active(self):
         if self.connected_voice_channel:
@@ -91,6 +86,7 @@ class VoiceAssistant(commands.Cog):
 
     @tasks.loop(seconds=10)
     async def check_channel(self):
+        print('CHEKING CHANNEL')
         await self._join_voice_channel(MAIN_VC_CHANNEL_ID)
 
     @commands.Cog.listener()
@@ -130,15 +126,16 @@ class VoiceAssistant(commands.Cog):
             await self._deactivate()
             print(f"Error with the speech recognition service: {e}")
 
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print(f'Loaded VoiceAssistant commands.')
+        await self.check_channel()
+
     @commands.command(name='ping')
     async def ping(self, ctx):
         await ctx.send("Ping")
         if self.connected_voice_channel:
             await self.connected_voice_channel.send("Ping")
-
-    @commands.Cog.listener()
-    async def on_ready(self):
-        print(f'Loaded VoiceAssistant commands.')
 
 
 async def setup(bot):
