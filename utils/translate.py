@@ -1,4 +1,4 @@
-from discord.app_commands import Choice
+from discord import SelectOption
 from googletrans import Translator, LANGUAGES
 
 
@@ -28,14 +28,13 @@ def get_languages():
     return languages
 
 
-def get_language_choices(add_auto=False):
-    language_choices = get_languages()
-    language_choices = [
-        Choice(name=lang['name'], value=lang['value'])
-        for lang in language_choices
+def get_language_selects(add_auto=False):
+    languages = get_languages()
+    languages = [
+        SelectOption(label=lang['name'], value=lang['value'])
+        for lang in languages
     ]
     if add_auto:
-        language_choices.insert(
-            0, Choice(name='Auto', value='auto')
+        languages.insert(
+            0, SelectOption(label='Auto', value='auto')
         )
-    return language_choices

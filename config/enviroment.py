@@ -16,4 +16,4 @@ MAIN_VC_CHANNEL_ID = os.getenv('MAIN_VC_CHANNEL_ID')
 WELCOME_CHANNEL_ID = os.getenv('WELCOME_CHANNEL_ID')
 
 # users
-OWNERS_IDS = json.loads(os.getenv('OWNERS_IDS'))
+ADMINS_IDS = json.loads(os.getenv('ADMINS_IDS'))

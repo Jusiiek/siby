@@ -28,6 +28,4 @@ class Greetings(commands.Cog):
 
 
 async def setup(bot: commands.Bot):
-    await bot.add_cog(
-        Greetings(bot), guilds=[discord.Object(id=SERVER_ID)]
-    )
+    await bot.add_cog(Greetings(bot))

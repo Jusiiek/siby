@@ -14,6 +14,7 @@ class DiscordBot(commands.Bot):
         print(f'Bot {self.user.display_name} is connected to server.')
 
     @commands.Cog.listener()
-    async def on_command_error(self, ctx, error:commands.CommandError):
+    async def on_command_error(self, ctx, error: commands.CommandError):
         if error:
             await ctx.send('Command not found')
+            print(f"[ERROR]: {error}")
