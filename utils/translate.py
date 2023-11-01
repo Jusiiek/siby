@@ -26,15 +26,3 @@ def get_languages():
         for code, name in LANGUAGES.items()
     ]
     return languages
-
-
-def get_language_selects(add_auto=False):
-    languages = get_languages()
-    languages = [
-        SelectOption(label=lang['name'], value=lang['value'])
-        for lang in languages
-    ]
-    if add_auto:
-        languages.insert(
-            0, SelectOption(label='Auto', value='auto')
-        )
